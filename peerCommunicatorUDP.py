@@ -11,6 +11,7 @@ import pickle
 
 # Counter to make sure we have received handshakes from all other processes
 handShakeCount = 0
+myself = 0
 
 # Account Balance
 balance = 0
@@ -106,6 +107,8 @@ class MsgHandler(threading.Thread):
     logFile = open('logfile'+str(myself)+'.log', 'w')
     logFile.writelines(str(logList))
     logFile.close()
+
+    print(f"Current Balance {balance} of process {myself}") 
     
     # Send the list of messages to the server (using a TCP socket) for comparison
     print('Sending the list of messages to the server for comparison...')
