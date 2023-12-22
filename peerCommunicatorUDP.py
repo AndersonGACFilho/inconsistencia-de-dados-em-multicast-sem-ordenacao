@@ -111,7 +111,8 @@ class MsgHandler(threading.Thread):
     print('Sending the list of messages to the server for comparison...')
     clientSock = socket(AF_INET, SOCK_STREAM)
     clientSock.connect((SERVER_ADDR, SERVER_PORT))
-    msgPack = pickle.dumps(logList)
+    msg = (logList, balance)
+    msgPack = pickle.dumps(msg)
     clientSock.send(msgPack)
     clientSock.close()
     
