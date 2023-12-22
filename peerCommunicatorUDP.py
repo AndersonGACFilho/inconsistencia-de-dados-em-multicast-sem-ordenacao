@@ -12,6 +12,15 @@ import pickle
 # Counter to make sure we have received handshakes from all other processes
 handShakeCount = 0
 
+# Account Balance
+balance = 0
+# List of operations
+operationList = ['deposit', 'fee']
+# Deposit gap
+depositRange = [1,100]
+feeRange = [1,3]
+
+
 # UDP sockets to send and receive data messages:
 # Create send socket
 sendSocket = socket(AF_INET, SOCK_DGRAM)
@@ -62,13 +71,36 @@ class MsgHandler(threading.Thread):
     while True:                
       msgPack = self.sock.recv(1024)   # receive data from client
       msg = pickle.loads(msgPack)
+      
+      
       if msg[0] == -1:   # count the 'stop' messages from the other processes
         stopCount = stopCount + 1
         if stopCount == N:
           break  # stop loop when all other processes have finished
       else:
-        print('Message ' + str(msg[1]) + ' from process ' + str(msg[0]))
+        print(f"Message {str(msg[1])} from process {str(msg[0])} and the choosed operation is {msg[2]} of {msg[3]}")
+         """
+          # List of operations
+          operationList = ['deposit', 'fee']
+          # Deposit gap
+          depositRange = [1,100]
+          feeRange = [1,3]
+          op = random.randrange(0,1)
+          
+          if operationList[op] == 'deposit':
+            opValue = random.randrange(depositRange[0],depositRange[1])
+          else
+            opValue = random.randrange(feeRange[0],feeRange[1])
+          msg = (myself, msgNumber,operationList[op],opValue)
+        """
+        
+        if msg[2] == "deposit":
+          balance+=msg[3]
+        else:
+          balance+=balance*msg[3]
+        
         logList.append(msg)
+
         
     # Write log file
     logFile = open('logfile'+str(myself)+'.log', 'w')
@@ -145,7 +177,21 @@ while 1:
   for msgNumber in range(0, nMsgs):
     # Wait some random time between successive messages
     time.sleep(random.randrange(10,100)/1000)
-    msg = (myself, msgNumber)
+    """
+    # List of operations
+    operationList = ['deposit', 'fee']
+    # Deposit gap
+    depositRange = [1,100]
+    feeRange = [1,3]
+    """
+    op = random.randrange(0,1)
+    if operationList[op] == 'deposit':
+      opValue = random.randrange(depositRange[0],depositRange[1])
+    else:
+      opValue = random.randrange(feeRange[0],feeRange[1])
+
+    
+    msg = (myself, msgNumber,operationList[op],opValue)
     msgPack = pickle.dumps(msg)
     for addrToSend in PEERS:
       sendSocket.sendto(msgPack, (addrToSend,PEER_UDP_PORT))
