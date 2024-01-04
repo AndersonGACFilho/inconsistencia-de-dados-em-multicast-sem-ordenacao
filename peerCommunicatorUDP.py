@@ -14,7 +14,6 @@ handShakeCount = 0
 myself = 0
 
 #global handShakes
-global handShakeCount
 
 # Account Balance
 balance = 0
