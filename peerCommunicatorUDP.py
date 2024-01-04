@@ -17,15 +17,11 @@ myself = 0
 global handShakeCount
 
 # Account Balance
-global balance
 balance = 0
 # List of operations
-global operationList
 operationList = ['deposit', 'fee']
 # Deposit gap
-global depositRange
 depositRange = [1,100]
-global feeRange
 feeRange = [1,3]
 
 
@@ -55,6 +51,12 @@ class MsgHandler(threading.Thread):
     print('Handler is ready. Waiting for the handshakes...')
     
     logList = []
+
+    global handShakeCount
+    global balance
+    global operationList
+    global depositRange
+    global feeRange
     
     # Wait until handshakes are received from all other processes
     # (to make sure that all processes are synchronized before they start exchanging messages)
