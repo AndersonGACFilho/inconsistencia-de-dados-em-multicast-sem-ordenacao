@@ -13,13 +13,6 @@ import pickle
 handShakeCount = 0
 myself = 0
 
-# Account Balance
-balance = 0
-# List of operations
-operationList = ['deposit', 'fee']
-# Deposit gap
-depositRange = [1,100]
-feeRange = [1,3]
 
 
 # UDP sockets to send and receive data messages:
@@ -50,6 +43,13 @@ class MsgHandler(threading.Thread):
     #global handShakes
     global handShakeCount
     
+    # Account Balance
+    global balance = 0
+    # List of operations
+    global operationList = ['deposit', 'fee']
+    # Deposit gap
+    global depositRange = [1,100]
+    global feeRange = [1,3]
     logList = []
     
     # Wait until handshakes are received from all other processes
