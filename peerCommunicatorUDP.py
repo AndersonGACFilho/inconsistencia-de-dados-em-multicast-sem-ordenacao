@@ -80,20 +80,6 @@ class MsgHandler(threading.Thread):
           break  # stop loop when all other processes have finished
       else:
         print(f"Message {str(msg[1])} from process {str(msg[0])} and the choosed operation is {msg[2]} of {msg[3]}")
-         """
-          # List of operations
-          operationList = ['deposit', 'fee']
-          # Deposit gap
-          depositRange = [1,100]
-          feeRange = [1,3]
-          op = random.randrange(0,1)
-          
-          if operationList[op] == 'deposit':
-            opValue = random.randrange(depositRange[0],depositRange[1])
-          else
-            opValue = random.randrange(feeRange[0],feeRange[1])
-          msg = (myself, msgNumber,operationList[op],opValue)
-        """
         
         if msg[2] == "deposit":
           balance+=msg[3]
@@ -181,13 +167,6 @@ while 1:
   for msgNumber in range(0, nMsgs):
     # Wait some random time between successive messages
     time.sleep(random.randrange(10,100)/1000)
-    """
-    # List of operations
-    operationList = ['deposit', 'fee']
-    # Deposit gap
-    depositRange = [1,100]
-    feeRange = [1,3]
-    """
     op = random.randrange(0,1)
     if operationList[op] == 'deposit':
       opValue = random.randrange(depositRange[0],depositRange[1])
