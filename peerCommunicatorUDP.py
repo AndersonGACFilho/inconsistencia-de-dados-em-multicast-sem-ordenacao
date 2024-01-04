@@ -172,7 +172,7 @@ while 1:
   for msgNumber in range(0, nMsgs):
     # Wait some random time between successive messages
     time.sleep(random.randrange(10,100)/1000)
-    op = random.randrange(0,1)
+    op = random.randrange(0,2)
     if operationList[op] == 'deposit':
       opValue = random.randrange(depositRange[0],depositRange[1])
     else:
