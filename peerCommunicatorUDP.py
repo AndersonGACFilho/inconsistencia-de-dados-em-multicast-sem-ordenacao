@@ -15,13 +15,8 @@ myself = 0
 
 #global handShakes
 
-# Account Balance
-balance = 0
-# List of operations
-operationList = ['deposit', 'fee', 'withdraw']
-# Deposit gap
-depositRange = [1,100]
-feeRange = [1,3]
+
+
 
 
 # UDP sockets to send and receive data messages:
@@ -50,12 +45,6 @@ class MsgHandler(threading.Thread):
     print('Handler is ready. Waiting for the handshakes...')
     
     logList = []
-
-    global handShakeCount
-    global balance
-    global operationList
-    global depositRange
-    global feeRange 
     
     # Wait until handshakes are received from all other processes
     # (to make sure that all processes are synchronized before they start exchanging messages)
@@ -74,6 +63,10 @@ class MsgHandler(threading.Thread):
     print('Secondary Thread: Received all handshakes. Entering the loop to receive messages.')
 
     stopCount=0 
+    
+    #Messages received
+    messages = {}
+
     while True:                
       msgPack = self.sock.recv(1024)   # receive data from client
       msg = pickle.loads(msgPack)
@@ -90,8 +83,10 @@ class MsgHandler(threading.Thread):
           balance+=msg[3]
         elif msg[2] == "fee":
           balance+=balance*msg[3]/100
-        else
+        else: 
           balance-=msg[3]
+        
+        messages[msg[2]]=msg[3]
         
         logList.append(msg)
 
@@ -102,12 +97,12 @@ class MsgHandler(threading.Thread):
     logFile.close()
 
     print(f"Current Balance {balance} of process {myself}") 
-    
+    print(f"Operations in order: {messages}")
     # Send the list of messages to the server (using a TCP socket) for comparison
     print('Sending the list of messages to the server for comparison...')
     clientSock = socket(AF_INET, SOCK_STREAM)
     clientSock.connect((SERVER_ADDR, SERVER_PORT))
-    msg = (logList, balance)
+    msg = (logList)
     msgPack = pickle.dumps(msg)
     clientSock.send(msgPack)
     clientSock.close()
@@ -177,9 +172,9 @@ while 1:
     op = random.randrange(0,2)
     if operationList[op] == 'deposit':
       opValue = random.randrange(depositRange[0],depositRange[1])
-    elif operationList[op] == "fee"
+    elif operationList[op] == "fee":
       opValue = random.randrange(feeRange[0],feeRange[1])
-    else
+    else:
       opValue = random.randrange(depositRange[0],depositRange[1])
 
     
