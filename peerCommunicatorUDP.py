@@ -18,7 +18,7 @@ myself = 0
 # Account Balance
 balance = 0
 # List of operations
-operationList = ['deposit', 'fee']
+operationList = ['deposit', 'fee', 'withdraw']
 # Deposit gap
 depositRange = [1,100]
 feeRange = [1,3]
@@ -55,7 +55,7 @@ class MsgHandler(threading.Thread):
     global balance
     global operationList
     global depositRange
-    global feeRange
+    global feeRange 
     
     # Wait until handshakes are received from all other processes
     # (to make sure that all processes are synchronized before they start exchanging messages)
@@ -88,8 +88,10 @@ class MsgHandler(threading.Thread):
         
         if msg[2] == "deposit":
           balance+=msg[3]
-        else:
-          balance+=balance*msg[3]
+        elif msg[2] == "fee":
+          balance+=balance*msg[3]/100
+        else
+          balance-=msg[3]
         
         logList.append(msg)
 
@@ -175,8 +177,10 @@ while 1:
     op = random.randrange(0,2)
     if operationList[op] == 'deposit':
       opValue = random.randrange(depositRange[0],depositRange[1])
-    else:
+    elif operationList[op] == "fee"
       opValue = random.randrange(feeRange[0],feeRange[1])
+    else
+      opValue = random.randrange(depositRange[0],depositRange[1])
 
     
     msg = (myself, msgNumber,operationList[op],opValue)
