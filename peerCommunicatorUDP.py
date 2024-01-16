@@ -25,6 +25,9 @@ operationList = ['deposit', 'fee', 'withdraw']
 depositRange = [1,100]
 # Fee gap
 feeRange = [1,3]
+# Message counter
+counter = 0
+
 
 
 
@@ -79,8 +82,10 @@ class MsgHandler(threading.Thread):
 
     # Global balance
     global balance
+    global counter
 
-    while True:                
+    while True: 
+      counter+=1              
       msgPack = self.sock.recv(1024)   # receive data from client
       msg = pickle.loads(msgPack)
       
@@ -99,7 +104,7 @@ class MsgHandler(threading.Thread):
         else: 
           balance-=msg[3]
         
-        messages[msg[2]]=msg[3]
+        messages[f"{msg[2]} {counter}"]=msg[3]
         
         logList.append(msg)
 
