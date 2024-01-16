@@ -18,16 +18,12 @@ myself = 0
 
 
 # Account Balance
-global balance
 balance = 0
 # List of operations
-global operationList
 operationList = ['deposit', 'fee', 'withdraw']
 # Deposit gap
-global depositRange
 depositRange = [1,100]
 # Fee gap
-global feeRange
 feeRange = [1,3]
 
 
@@ -80,6 +76,9 @@ class MsgHandler(threading.Thread):
     
     #Messages received
     messages = {}
+
+    # Global balance
+    global balance
 
     while True:                
       msgPack = self.sock.recv(1024)   # receive data from client
@@ -178,6 +177,7 @@ while 1:
 
   while (handShakeCount < N):
     pass  # find a better way to wait for the handshakes
+
 
   # Send a sequence of data messages to all other processes 
   for msgNumber in range(0, nMsgs):
