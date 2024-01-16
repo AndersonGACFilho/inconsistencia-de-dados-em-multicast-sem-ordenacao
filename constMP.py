@@ -16,12 +16,3 @@ PEER_TCP_PORT = 5679
 N = 6   # Number of peers
 SERVER_ADDR ='54.198.32.149'
 SERVER_PORT = 5678
-
-
-# Account Balance
-balance = 0
-# List of operations
-operationList = ['deposit', 'fee', 'withdraw']
-# Deposit gap
-depositRange = [1,100]
-feeRange = [1,3]
