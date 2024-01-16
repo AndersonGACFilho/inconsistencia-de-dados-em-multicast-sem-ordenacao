@@ -17,6 +17,14 @@ myself = 0
 
 
 
+# Account Balance
+balance = 0
+# List of operations
+operationList = ['deposit', 'fee', 'withdraw']
+# Deposit gap
+depositRange = [1,100]
+feeRange = [1,3]
+
 
 
 # UDP sockets to send and receive data messages:
@@ -81,11 +89,11 @@ class MsgHandler(threading.Thread):
         print(f"Message {str(msg[1])} from process {str(msg[0])} and the choosed operation is {msg[2]} of {msg[3]}")
         
         if msg[2] == "deposit":
-          balance+=msg[3]
+          self.balance+=msg[3]
         elif msg[2] == "fee":
-          balance+=balance*msg[3]/100
+          self.balance+=self.balance*msg[3]/100
         else: 
-          balance-=msg[3]
+          self.balance-=msg[3]
         
         messages[msg[2]]=msg[3]
         
@@ -97,7 +105,7 @@ class MsgHandler(threading.Thread):
     logFile.writelines(str(logList))
     logFile.close()
 
-    print(f"Current Balance {balance} of process {myself}") 
+    print(f"Current Balance {self.balance} of process {myself}") 
     print(f"Operations in order: {messages}")
     # Send the list of messages to the server (using a TCP socket) for comparison
     print('Sending the list of messages to the server for comparison...')
